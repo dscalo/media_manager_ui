@@ -1,5 +1,5 @@
 <script>
-  let page = 'view'
+  let page = 'upload'
   import Images from './pages/Images.svelte'
   import Upload from './pages/Upload.svelte'
 </script>
