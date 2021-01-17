@@ -1,36 +1,51 @@
 <script>
-  let page = 'upload'
-  import Images from './pages/Images.svelte'
-  import Upload from './pages/Upload.svelte'
+  let page = "upload";
+  import Images from "./pages/Images.svelte";
+  import Upload from "./pages/Upload.svelte";
 </script>
 
 <style>
   main {
-    width: 100vw;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    flex: 1 1 auto;
+    overflow: auto;
+    align-self: stretch;
   }
 
   nav {
-    background-color: red;
+    background-color: #000;
     color: #fff;
     display: flex;
+    padding: 15px 0;
   }
 
   nav > button {
-    padding: 10px 5px;
     color: inherit;
+    padding: 10px 0;
     background-color: inherit;
     flex: 1;
     border: none;
   }
 
   .active {
-    background-color: #fff;
-    color: red;
+    border-bottom: 1px solid #fff;
   }
 </style>
 
 <main>
+  <div class="content">
+    {#if page === 'upload'}
+      <Upload />
+    {:else}
+      <Images />
+    {/if}
+  </div>
+
   <nav>
     <button class:active={page === 'upload'} on:click={() => (page = 'upload')}>
       Upload
@@ -39,10 +54,4 @@
       View
     </button>
   </nav>
-
-  {#if page === 'upload'}
-    <Upload />
-  {:else}
-    <Images />
-  {/if}
 </main>

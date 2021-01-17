@@ -1,13 +1,7 @@
 <script>
-  import GridImage from '../components/GridImage.svelte'
+  import GridImage from "../components/GridImage.svelte";
 
-  const images = [
-    'ashley.jpg',
-    'concert.jpg',
-    'gabby.jpg',
-    'kids.jpg',
-    'street.jpg',
-  ]
+  const images = ["one.jpg", "two.jpg", "three.jpg", "four.jpg", "five.jpg"];
 </script>
 
 <style>

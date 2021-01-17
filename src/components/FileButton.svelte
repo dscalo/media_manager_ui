@@ -1,28 +1,20 @@
 <script>
-  let files = []
+  import { files } from "../lib/store";
 
-  let fileInput
-  import { getMimeType, getDataUrl } from '../lib/file-helpers'
+  let fileInput;
 
   const handleFiles = async () => {
-    const newFiles = await Array.prototype.reduce.call(
-      fileInput.files,
-      async (accP, cur) => {
-        const acc = await accP
-        const file = { file: cur }
-        file.mimeType = await getMimeType(file.file)
-        if (/image/.test(file.mimeType)) {
-          file.src = await getDataUrl(file.file)
-        }
-        return [...acc, file]
-      },
-      []
-    )
-    files = [...files, ...newFiles]
-  }
+    await files.add(fileInput.files);
+  };
 </script>
 
 <style>
+  .file--button-container {
+    width: 10em;
+    border: 1px solid black;
+    border-radius: 6px;
+    box-sizing: 3px 3px 1px 1px rgba(0, 0, 0, 0.3);
+  }
   input {
     cursor: inherit;
     display: block;
@@ -36,41 +28,24 @@
   }
 
   label {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
     padding: 5px;
-    border-right: 1px solid grey;
+    text-align: center;
   }
 
   label:active {
     background-color: black;
     color: #fff;
   }
-
-  img {
-    width: 125px;
-    height: 100px;
-  }
 </style>
 
-{#each files as f}
-  <p>
-    {f?.file?.name}
-    :
-    {f?.mimeType}
-    {#if f.src}<img src={f.src} alt={f.name} />{/if}
-  </p>
-{/each}
-
-<label for="file-input">
-  Select Files
-  <input
-    id="file-input"
-    type="file"
-    multiple
-    bind:this={fileInput}
-    on:change={handleFiles} />
-</label>
+<div class="file--button-container">
+  <label for="file-input">
+    Select Files
+    <input
+      id="file-input"
+      type="file"
+      multiple
+      bind:this={fileInput}
+      on:change={handleFiles} />
+  </label>
+</div>
