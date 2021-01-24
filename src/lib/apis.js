@@ -1,4 +1,4 @@
-export const upload = (file, cb) => {
+ const upload = (file, cb) => {
     return new Promise((resolve, reject) => {
         const formData = new FormData()
         formData.append('upload', file.file)

@@ -3,7 +3,7 @@
   import FileButton from "../components/FileButton.svelte";
   import UploadItem from "../components/UploadItem.svelte";
   import { files } from "../lib/store";
-  import {upload} from '../lib/apis'
+
 
   let progress = 0
 
@@ -12,8 +12,34 @@
   }
 
   const handleUpload = async () => {
-    const res = await upload($files[0], updateProgress)
-    console.log('upload response: ', res)
+    const worker = new Worker('uploadWorker.js')
+
+    worker.onmessage = e => {
+      const msg = e.data
+      switch (msg.type) {
+        case 'SUCCESS':
+          files.delete(msg.name)
+          break
+        case 'PROGRESS':
+          progress = msg.data
+          console.log('IN ONMESSAGE for progress', msg)
+          break
+        case 'ERROR':
+          console.error(msg.data)
+          break
+        case 'ERROR_XHR':
+          console.error(`status: ${msg.data.status}: ${msg.data.statusText}`)
+          break
+        default:
+          console.log('bad message received!', msg)
+      }
+    }
+
+    const msg = {
+      type: 'UPLOAD',
+      data: $files[0]
+    }
+    worker.postMessage(msg)
   }
 
 
