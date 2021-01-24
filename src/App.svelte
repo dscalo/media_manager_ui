@@ -9,6 +9,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
   }
 
   .content {
@@ -21,7 +22,8 @@
     background-color: #000;
     color: #fff;
     display: flex;
-    padding: 15px 0;
+    padding: 5px 0;
+    width: 100%;
   }
 
   nav > button {
@@ -38,14 +40,6 @@
 </style>
 
 <main>
-  <div class="content">
-    {#if page === 'upload'}
-      <Upload />
-    {:else}
-      <Images />
-    {/if}
-  </div>
-
   <nav>
     <button class:active={page === 'upload'} on:click={() => (page = 'upload')}>
       Upload
@@ -54,4 +48,13 @@
       View
     </button>
   </nav>
+  <div class="content">
+    {#if page === 'upload'}
+      <Upload />
+    {:else}
+      <Images />
+    {/if}
+  </div>
+
+ 
 </main>
