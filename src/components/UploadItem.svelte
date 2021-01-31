@@ -36,6 +36,7 @@
 
   .card--header > h4 {
     margin: 0 auto;
+    color: #000;
     text-align: center;
   }
 
@@ -64,7 +65,7 @@
 
 <div class="card">
   <div class="card--header">
-    <h4>{fileType}</h4>
+    <h4>{fileType} {file.status}  </h4>
     <button
       on:click={() => {
         deleteHandler(file?.file?.name);
@@ -78,6 +79,8 @@
   </div>
   <p class="card--text">{truncate(file?.file?.name)}</p>
   <div class="card--footer">
+    {#if file.progress > 0}
     <progress max="100" value={file.progress}>{file.progress}%</progress>
+    {/if}
   </div>
 </div>

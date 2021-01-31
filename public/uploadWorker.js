@@ -1,9 +1,7 @@
 let  uploading = false
 
 onmessage = e => {
-    console.log('onmessage', e)
     const msg = e.data
-    console.log('message', msg)
     switch(msg.type) {
         case 'UPLOAD':
             if (uploading) {
@@ -55,7 +53,6 @@ const upload = (file) => {
     }
 
     xhr.onprogress = e => {
-        console.log('progress', e.total, e.loaded)
         const msg = {
             type: 'PROGRESS', 
             name: file.file.name, 

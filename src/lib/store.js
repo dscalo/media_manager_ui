@@ -27,7 +27,7 @@ function createFileStore() {
       
       update(files =>{
         const file = files.find(f => f.file.name === fileName) 
-        if (file.status === 'UPLOADING') {
+        if (file.status !== 'IDLE') {
           return files
         }
         return files.filter(f => f.file.name !== fileName)
