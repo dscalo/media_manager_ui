@@ -12,7 +12,7 @@ function createFileStore() {
         filesObject,
         async (accP, cur) => {
           const acc = await accP
-          const file = { file: cur }
+          const file = { file: cur, status: 'IDLE', progress: 0 }
           file.mimeType = await getMimeType(file.file)
           if (/image/.test(file.mimeType)) {
             file.src = await getDataUrl(file.file)
@@ -24,7 +24,28 @@ function createFileStore() {
       update(files => files = [...files, ...newFiles])
     },
     delete: fileName => {
-      update(files => files.filter(f => f.file.name !== fileName))
+      
+      update(files =>{
+        const file = files.find(f => f.file.name === fileName) 
+        if (file.status === 'UPLOADING') {
+          return files
+        }
+        return files.filter(f => f.file.name !== fileName)
+      })
+    },
+    setStatus: (fileName, status) => {
+      update(files => {
+        const file = files.find(f => f.file.name === fileName)
+        file.status = status
+        return files
+      })
+    },
+    setProgress: (fileName, progress) => {
+      update(files => {
+        const file = files.find(f => f.file.name === fileName)
+        file.progress = progress
+        return files
+      })
     }
   }
 }

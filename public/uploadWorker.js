@@ -19,6 +19,7 @@ onmessage = e => {
 
 const upload = (file) => {    
     uploading = true
+    postMessage({type: 'UPLOADING', name: file.file.name})
     const formData = new FormData()
     formData.append('upload', file.file)
 

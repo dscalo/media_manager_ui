@@ -77,5 +77,7 @@
     {:else}<img src={fileIcon} alt="file icon" />{/if}
   </div>
   <p class="card--text">{truncate(file?.file?.name)}</p>
-  <div class="card--footer" />
+  <div class="card--footer">
+    <progress max="100" value={file.progress}>{file.progress}%</progress>
+  </div>
 </div>

@@ -7,22 +7,21 @@
 
   let progress = 0
 
-  const updateProgress = (cur, tot) => {
-    progress =( tot / cur) * 100
-  }
 
   const handleUpload = async () => {
     const worker = new Worker('uploadWorker.js')
 
     worker.onmessage = e => {
-      const msg = e.data
+      const msg = e.data 
       switch (msg.type) {
+        case 'UPLOADING':
+          files.setStatus(msg.name, 'UPLOADING')
         case 'SUCCESS':
-          files.delete(msg.name)
+          files.setStatus(msg.name, 'IDLE')
+          //files.delete(msg.name)
           break
         case 'PROGRESS':
-          progress = msg.data
-          console.log('IN ONMESSAGE for progress', msg)
+          files.setProgress(msg.name, msg.data)
           break
         case 'ERROR':
           console.error(msg.data)
@@ -71,8 +70,6 @@
   <h1>Uploads page!</h1>
 
   <FileButton />
-
-  <h3>Progeess = {progress}</h3>
   
   {#if $files.length > 0}
   <button on:click={handleUpload}>UPLOAD</button>
